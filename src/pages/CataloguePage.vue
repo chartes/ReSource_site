@@ -2,44 +2,74 @@
 import { computed } from 'vue';
 import { store, resetFilters } from '@/store';
 import CollectionCard from '@/components/CollectionCard.vue';
+import { FACET_COLORS } from '@/facetColors';
 import { catalogueToGovernanceRows, downloadCSV } from '@/services/dataService';
 
 const NIVEAUX_MAITRISE = ["Apprenti", "Confirmé", "Maître d'art"];
-const PUBLICS = ["Professeur", "Professionnel", "Apprenant"];
+const NON_RENSEIGNE = "Non renseigné";
 
 const normalizeText = (str) => (str || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+// Libellé lisible d'un type MIME ; un type inconnu est affiché tel quel.
+const MEDIA_LABELS = {
+  "application/pdf": "PDF",
+  "text/csv": "Tableur",
+  "text/tab-separated-values": "Tableur",
+  "application/vnd.ms-excel": "Tableur",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "Tableur",
+  "application/msword": "Document texte",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "Document texte",
+  "application/x-bvh": "Capture de mouvement",
+};
+const MEDIA_FAMILIES = { video: "Vidéo", audio: "Audio", image: "Image" };
+const mediaLabel = (mime) => MEDIA_LABELS[mime] || MEDIA_FAMILIES[mime.split('/')[0]] || mime;
+
+// Une ressource peut déclarer plusieurs formats séparés par « ; » ; sans format, elle est « Non renseigné ».
+const mediaTypes = (r) => {
+  const list = (r.format || '').split(';').map(v => v.trim()).filter(Boolean);
+  return list.length > 0 ? [...new Set(list.map(mediaLabel))] : [NON_RENSEIGNE];
+};
 
 const uniqueValues = computed(() => {
   const disciplines = new Set();
   const categories = new Set();
+  const formats = new Set();
   for (const col of store.catalogue?.collections || []) {
     for (const r of [col, ...(col.data || [])]) {
       if (r.discipline) disciplines.add(r.discipline.trim());
       if (r.category) categories.add(r.category.trim());
     }
+    for (const d of col.data || []) mediaTypes(d).forEach(m => formats.add(m));
   }
-  return { disciplines: [...disciplines].sort(), categories: [...categories].sort() };
+  const hasMissing = formats.delete(NON_RENSEIGNE);
+  return {
+    disciplines: [...disciplines].sort(),
+    categories: [...categories].sort(),
+    formats: [...[...formats].sort(), ...(hasMissing ? [NON_RENSEIGNE] : [])],
+  };
 });
 
 // La recherche texte porte sur `searchIn` ; chaque autre critère est satisfait
 // si l'un des enregistrements de `criteriaIn` le satisfait.
-const matches = (searchIn, criteriaIn, f) => {
+// Le type de média ne concerne que les ressources : une collection n'est retenue
+// sur ce critère qu'à travers ses ressources.
+const matches = (searchIn, criteriaIn, f, isResource) => {
   const search = normalizeText(f.search);
   const any = (pred) => criteriaIn.some(pred);
   return (!f.search || normalizeText(searchIn.title).includes(search) || normalizeText(searchIn.description).includes(search))
     && (!f.category || any(r => r.category === f.category))
     && (!f.discipline || any(r => r.discipline === f.discipline))
     && (!f.expertise || any(r => r.expertise.includes(f.expertise)))
-    && (!f.audience || any(r => r.audience.includes(f.audience)))
+    && (!f.format || (isResource && mediaTypes(searchIn).includes(f.format)))
     && (!f.rightsHolder || any(r => r.rightsHolder.includes(f.rightsHolder)));
 };
 
 const filteredCatalogue = computed(() => {
   const f = store.filters;
   return (store.catalogue?.collections || []).flatMap(col => {
-    // Une ressource hérite des catégorie/discipline/niveau/public/détenteur de sa collection.
-    const filteredData = (col.data || []).filter(d => matches(d, [d, col], f));
-    if (matches(col, [col], f) || filteredData.length > 0) {
+    // Une ressource hérite des catégorie/discipline/niveau/détenteur de sa collection.
+    const filteredData = (col.data || []).filter(d => matches(d, [d, col], f, true));
+    if (matches(col, [col], f, false) || filteredData.length > 0) {
       return [{ ...col, data: filteredData.length > 0 ? filteredData : col.data }];
     }
     return [];
@@ -51,24 +81,24 @@ const hasActiveFilter = computed(() => Object.values(store.filters).some(Boolean
 const exportAll = () => downloadCSV('gouvernance-catalogue.csv', catalogueToGovernanceRows(filteredCatalogue.value));
 
 const SELECTS = [
-  { key: 'category', label: 'Catégorie', all: 'Toutes les catégories', color: 'bg-cyan-50/50 border-cyan-100 text-cyan-900' },
-  { key: 'discipline', label: 'Discipline', all: 'Toutes les disciplines', color: 'bg-indigo-50/50 border-indigo-100 text-indigo-900' },
-  { key: 'expertise', label: 'Niveau de maîtrise', all: 'Tous les niveaux', color: 'bg-amber-50/50 border-amber-100 text-amber-900' },
-  { key: 'audience', label: 'Public visé', all: 'Tous les publics', color: 'bg-sky-50/50 border-sky-100 text-sky-900' },
+  { key: 'category', label: 'Catégorie', all: 'Toutes les catégories' },
+  { key: 'discipline', label: 'Discipline', all: 'Toutes les disciplines' },
+  { key: 'expertise', label: 'Niveau de maîtrise', all: 'Tous les niveaux' },
+  { key: 'format', label: 'Type de média', all: 'Tous les types' },
 ];
 
 const optionsFor = (key) => ({
   category: uniqueValues.value.categories,
   discipline: uniqueValues.value.disciplines,
   expertise: NIVEAUX_MAITRISE,
-  audience: PUBLICS,
+  format: uniqueValues.value.formats,
 }[key]);
 </script>
 
 <template>
   <div class="animate-fade-in">
     <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Rechercher des ressources</h1>
-    <p class="text-gray-500 mb-8">Filtrer les collections par texte, discipline, catégorie, niveau d’expertise et public cible.</p>
+    <p class="text-gray-500 mb-8">Filtrer les collections par texte, discipline, catégorie, niveau d’expertise et type de média.</p>
 
     <!-- Filtres -->
     <section class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10 space-y-6">
@@ -90,7 +120,7 @@ const optionsFor = (key) => ({
           <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">{{ s.label }}</label>
           <select
             v-model="store.filters[s.key]"
-            :class="['w-full border rounded-xl py-2.5 px-3 text-sm focus:outline-none transition-all appearance-none cursor-pointer', s.color]"
+            :class="['w-full border rounded-xl py-2.5 px-3 text-sm focus:outline-none transition-all appearance-none cursor-pointer', FACET_COLORS[s.key].filter]"
           >
             <option value="">{{ s.all }}</option>
             <option v-for="o in optionsFor(s.key)" :key="o" :value="o">{{ o }}</option>

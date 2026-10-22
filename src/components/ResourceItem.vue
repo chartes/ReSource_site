@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import HighlightText from './HighlightText.vue';
 import { makeDownloadURL, makeIIIFUrl, formatExtent } from '@/services/dataService';
+import { FACET_COLORS } from '@/facetColors';
 
 const props = defineProps({
   resource: { type: Object, required: true },
@@ -42,7 +43,7 @@ const imagePreview = computed(() => downloadUrl.value && (makeIIIFUrl(downloadUr
         </h4>
       </div>
       <div class="flex flex-wrap gap-2 justify-end">
-        <span v-if="resource.mediatype" class="bg-indigo-50 text-indigo-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase">{{ resource.mediatype }}</span>
+        <span v-if="resource.mediatype" :class="['text-[10px] px-2 py-0.5 rounded font-bold uppercase', FACET_COLORS.format.badge]">{{ resource.mediatype }}</span>
         <span v-if="resource.license" class="bg-emerald-50 text-emerald-700 text-[10px] px-2 py-0.5 rounded font-medium">CC</span>
         <span v-if="resource.extent" class="bg-gray-100 text-gray-600 text-[10px] px-2 py-0.5 rounded font-medium">{{ formatExtent(resource.extent) }}</span>
       </div>

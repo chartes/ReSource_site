@@ -6,7 +6,7 @@ export const emptyFilters = () => ({
   category: '',
   discipline: '',
   expertise: '',
-  audience: '',
+  format: '',
   rightsHolder: '',
 });
 

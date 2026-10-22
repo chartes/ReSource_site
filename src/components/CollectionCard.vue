@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import HighlightText from './HighlightText.vue';
 import ResourceItem from './ResourceItem.vue';
 import { collectionToGovernanceRows, downloadCSV, joinList } from '@/services/dataService';
+import { FACET_COLORS } from '@/facetColors';
 
 const props = defineProps({
   collection: { type: Object, required: true },
@@ -31,8 +32,8 @@ const exportCSV = () => {
         <HighlightText :text="collection.title || 'Collection sans titre'" :search="searchText" />
       </h2>
       <div class="flex flex-wrap gap-2">
-        <span v-if="collection.category" class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-semibold">{{ collection.category }}</span>
-        <span v-if="collection.discipline" class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-semibold">{{ collection.discipline }}</span>
+        <span v-if="collection.category" :class="['text-xs px-2.5 py-1 rounded-full font-semibold', FACET_COLORS.category.badge]">{{ collection.category }}</span>
+        <span v-if="collection.discipline" :class="['text-xs px-2.5 py-1 rounded-full font-semibold', FACET_COLORS.discipline.badge]">{{ collection.discipline }}</span>
       </div>
     </header>
 
