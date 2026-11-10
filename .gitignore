@@ -13,8 +13,15 @@ dist
 dist-ssr
 *.local
 
-# Local tooling
+# Outils locaux (assistants, configuration d'éditeur) : jamais versionnés
 .claude/
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
+.cursor/
+.cursorrules
+.aider*
+.github/copilot-instructions.md
 
 # API de suivi : fichier Excel (données internes) et configuration locale, jamais versionnés
 *.xlsx
