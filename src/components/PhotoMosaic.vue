@@ -88,11 +88,11 @@ const imgStyle = (visible) => ({
 </script>
 
 <template>
-  <div class="grid grid-cols-12 grid-rows-2 gap-[3px] h-full bg-[#fffcf3]">
+  <div class="grid grid-cols-12 grid-rows-2 gap-[3px] h-full bg-banner">
     <div
       v-for="(t, i) in tiles"
       :key="i"
-      class="relative overflow-hidden bg-[#1c1c1c]"
+      class="relative overflow-hidden bg-tile"
       :style="{ gridColumn: LAYOUT[i][0], gridRow: LAYOUT[i][1] }"
     >
       <img
@@ -121,7 +121,7 @@ const imgStyle = (visible) => ({
 .mosaic-logo {
   object-fit: contain;
   padding: 8% 10%;
-  background: #e6e6e6;
+  background: var(--color-tile-logo);
   filter: none;
 }
 </style>

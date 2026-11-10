@@ -1,24 +1,55 @@
 /* ==========================================================================
-   POLICES : les deux seuls réglages à modifier pour changer de police
-   1. Charger la ou les polices (une ligne @import par police, depuis fonts.google.com).
-   2. Choisir la police du site (--font-site) et celle du titre du bandeau (--font-title).
+   POLICES : charger la ou les polices ici (une ligne @import par police, depuis fonts.google.com),
+   puis choisir --font-site et --font-title dans le bloc @theme plus bas.
+   Les @import doivent rester en tête du fichier.
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Clarity+City:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
 
-:root {
+/* ==========================================================================
+   THÈME : polices et couleurs propres au site, en un seul endroit.
+   Chaque --color-xxx devient une classe Tailwind (bg-xxx, text-xxx, border-xxx…)
+   et une variable CSS var(--color-xxx), utilisée aussi par titleAnimation.sass.
+   `static` : les variables sont toujours générées, même celles utilisées seulement hors Tailwind.
+   ========================================================================== */
+@theme static {
   --font-site: 'Clarity City', sans-serif;   /* tout le site : menus, textes, formulaires */
   --font-title: 'Clarity City', sans-serif;  /* titre animé du bandeau */
-}
 
-@import "tailwindcss";
+  --color-site: #fdfcf6;          /* fond de page */
+  --color-banner: #fffcf3;        /* fond du bandeau et joints de la mosaïque */
+  --color-tile: #1c1c1c;          /* fond des cases de la mosaïque pendant le chargement des photos */
+  --color-tile-logo: #e6e6e6;     /* fond gris clair derrière les logos de la mosaïque */
+  --color-title: #fde68a;         /* lettres du titre du bandeau et surlignage au survol */
+  --color-title-hover: #1e293b;   /* lettres du titre quand elles sont surlignées */
+  --color-highlight: #fef08a;     /* surlignage des résultats de recherche */
+}
 
 body {
   font-family: var(--font-site);
-  background-color: #f8f9fa;
+  background-color: var(--color-site);
+}
+
+/* ==========================================================================
+   COMPOSANTS : styles répétés sur plusieurs pages.
+   Les marges restent dans les templates (elles varient d'une page à l'autre).
+   ========================================================================== */
+@layer components {
+  .page-title {
+    @apply text-3xl font-extrabold text-gray-900 tracking-tight;
+  }
+
+  .card {
+    @apply bg-white p-6 rounded-2xl shadow-sm border border-gray-100;
+  }
+
+  .field-label {
+    @apply text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block;
+  }
 }
 
 .search-highlight {
-  background-color: #fef08a;
+  background-color: var(--color-highlight);
   padding: 0 2px;
   border-radius: 2px;
 }

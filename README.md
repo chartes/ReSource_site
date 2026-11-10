@@ -6,13 +6,11 @@ Site statique (SPA Vue) : les données sont lues depuis `public/data/catalogue.j
 
 ## Développement
 
-**Prérequis :** Node.js, et Python 3 pour l'onglet Suivi
+**Prérequis :** Node.js
 
 ```bash
-npm install                                # installer les dépendances
-pip install -r server/requirements.txt     # dépendances de l'API de suivi (une fois)
-npm run dev      # site (http://localhost:3000) + API de suivi (http://localhost:8000)
-npm run dev:site # site seul, sans l'API
+npm install      # installer les dépendances
+npm run dev      # serveur de dev (http://localhost:3000)
 npm run build    # build de production dans dist/
 npm run preview  # prévisualiser le build de production
 ```
@@ -23,23 +21,41 @@ npm run preview  # prévisualiser le build de production
 - [Tailwind CSS 4](https://tailwindcss.com/) (styles, compilé via le plugin Vite)
 - [Vite 6](https://vite.dev/) (build et serveur de dev)
 
-## Onglet Suivi (interne)
+## Onglet Suivi
 
-L'onglet **Suivi** (`#/suivi`) affiche le rapport Power BI du projet et permet de créer, modifier et supprimer
-les opérations et productions du fichier Excel de suivi. Il s'appuie sur l'API FastAPI de `server/main.py`,
-lancée automatiquement avec le site par `npm run dev` (ou seule avec `npm run api`). Swagger :
-http://localhost:8000/docs.
+L'onglet **Suivi** (`#/suivi`) affiche uniquement le rapport Power BI du projet, intégré par son lien public
+« Publier sur le web » (constante `POWERBI_URL` dans `src/pages/SuiviPage.vue`). La saisie des données se fait
+directement dans Power BI / le fichier Excel de suivi, hors du site.
 
-**Fichier Excel.** Il n'est jamais versionné (`*.xlsx` dans `.gitignore`). Son chemin est lu, dans l'ordre :
-1. dans la variable d'environnement `EXCEL_FILE_PATH` ;
-2. dans `server/config.local.json` (non versionné ; copier `server/config.example.json` et y mettre le chemin) ;
-3. à défaut, `server/suivi_projet.xlsx`.
+## Déploiement (nginx)
 
-Le fichier ne doit pas être ouvert dans Excel pendant les modifications (Excel le verrouille).
+`npm run build` produit un site entièrement statique dans `dist/` : aucun serveur applicatif, aucune API.
+Le routeur utilise des URLs en `#/...`, donc toutes les pages sont servies par `index.html` sans règle de réécriture.
+Le site est servi à la racine de `https://ressources.chart.psl.eu/` : les chemins `/data`, `/Logos` et `/banner` sont absolus par rapport à ce domaine.
 
-En dev, `vite.config.js` redirige `/api` vers le port 8000. Pour un autre hébergement de l'API, définir
-`VITE_SUIVI_API_URL` (et `VITE_SUIVI_DOCS_URL` pour le lien Swagger) au moment du build.
+```nginx
+server {
+    listen 80;
+    server_name ressources.chart.psl.eu;
+    root /var/www/ressources.chart.psl.eu/dist;
+    index index.html;
 
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Fichiers de build versionnés par Vite : cache long
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Catalogue : toujours revalider pour voir les mises à jour
+    location = /data/catalogue.json {
+        add_header Cache-Control "no-cache";
+    }
+}
+```
 
 ## Mettre à jour le catalogue
 
@@ -52,5 +68,3 @@ Remplacer `public/data/catalogue.json` puis republier le site (`npm run build`).
 - `services/dataService.js` : normalisation du JSON, URLs Nakala/IIIF, export CSV de gouvernance
 - `data/` : membres du conservatoire et métiers étudiés
 - `pages/` et `components/` : pages Recherche / Métiers / À propos / Suivi et cartes collection / ressource
-- `suivi/` : onglet Suivi (accès à l'API, état, formulaires opérations / productions)
-- `../server/` : API de suivi en Python (FastAPI + openpyxl) qui lit et écrit le fichier Excel

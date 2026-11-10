@@ -27,7 +27,7 @@ const viewDiscipline = (discipline) => {
         <div
           v-for="metier in METIERS"
           :key="metier.name"
-          class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col hover:border-amber-200 transition-all group"
+          class="card flex flex-col hover:border-amber-200 transition-all group"
         >
           <h4 class="font-bold text-lg text-gray-900 group-hover:text-amber-800 transition-colors mb-3">{{ metier.name }}</h4>
           <p class="text-sm text-gray-600 leading-relaxed mb-6 grow">{{ metier.description }}</p>

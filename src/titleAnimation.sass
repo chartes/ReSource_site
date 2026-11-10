@@ -1,27 +1,21 @@
-// Police du titre : réglée par --font-title en haut de src/index.css.
-$background: #1e293b
-$font-color: #fde68a
+// Animation du titre du bandeau (HeroBanner.vue) : chaque lettre est surlignée au survol.
+// Police et couleurs : réglées dans le bloc @theme de src/index.css.
+// Toutes les règles sont limitées à .share : rien ne déborde sur le reste du site.
+
+// Nombre de lettres animées : au moins la longueur du titre (62 caractères aujourd'hui).
+$letters: 62
 $transition: .01s
-$font-size: 2vw
+// Lisible sur tablette, sans devenir énorme sur grand écran.
+$font-size: clamp(1.25rem, 2vw, 2rem)
 // Lisibilité du titre sur les photos du bandeau
 $font-weight: 500
 $text-shadow: 0 2px 3px rgba(0, 0, 0, .9), 0 0 16px rgba(0, 0, 0, .75)
 
-@mixin center
-  position: absolute
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
-
-body
-  background: $background
-
-  
-.first-container, .second-container
+.share
   cursor: pointer
-  color: $font-color
+  color: var(--color-title)
   position: relative
-  
+
   h1
     position: relative
     letter-spacing: 2px
@@ -29,36 +23,28 @@ body
     font-size: $font-size
     font-weight: $font-weight
     text-shadow: $text-shadow
-    
-.first-container
-  margin-bottom: 0px
-  
-span
-  display: inline-block
-  position: relative
-  margin-right: 0px
-  &:after
-    content: ''
-    position: absolute
-    height: 100%
-    width: 0
-    top: 0
-    left: 0
-    transition: $transition
-    z-index: -5
-   
-@for $i from 1 through 100
+
+  h1 > span
+    display: inline-block
+    position: relative
+    &:after
+      content: ''
+      position: absolute
+      height: 100%
+      width: 0
+      top: 0
+      left: 0
+      transition: $transition
+      z-index: -5
+
+@for $i from 1 through $letters
   .share:hover > h1 > span:nth-child(#{$i}):after
-    $delay: 20 * $i
-    $random: ($i * 5) - 30
-    background: #fde68a
+    background: var(--color-title)
     width: 150%
     transition: $transition
-    transition-delay: $delay + ms
-    transform: rotate($random + deg)
+    transition-delay: (20 * $i) + ms
+    transform: rotate((($i * 5) - 30) + deg)
   .share:hover > h1 > span:nth-child(#{$i})
-    $delayTwo: 20 * $i
-    color: $background
+    color: var(--color-title-hover)
     text-shadow: none
-    transition-delay: $delayTwo + ms
-
+    transition-delay: (20 * $i) + ms

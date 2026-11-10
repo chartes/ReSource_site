@@ -6,7 +6,7 @@ const TITLE_LINES = ["Conservatoire des gestes et des savoir-faire des métiers 
 </script>
 
 <template>
-  <section class="hidden md:block relative h-[233px] pb-[3px] bg-[#fffcf3]">
+  <section class="hidden md:block relative h-[233px] pb-[3px] bg-banner">
     <PhotoMosaic :logos="['/Logos/ReSource.png']" />
 
     <!-- Voile sombre au centre, pour détacher le titre des photos. -->
@@ -18,7 +18,7 @@ const TITLE_LINES = ["Conservatoire des gestes et des savoir-faire des métiers 
         <div
           v-for="(line, l) in TITLE_LINES"
           :key="l"
-          :class="[l === 0 ? 'first-container' : 'second-container', 'share']"
+          class="share"
         >
           <h1 :aria-label="l === 0 ? TITLE_LINES.join(' ') : ''">
             <span v-for="(ch, i) in line" :key="i">{{ ch === ' ' ? ' ' : ch }}</span>

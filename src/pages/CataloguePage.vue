@@ -97,13 +97,13 @@ const optionsFor = (key) => ({
 
 <template>
   <div class="animate-fade-in">
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">Rechercher des ressources</h1>
+    <h1 class="page-title mb-2">Rechercher des ressources</h1>
     <p class="text-gray-500 mb-8">Filtrer les collections par texte, discipline, catégorie, niveau d’expertise et type de média.</p>
 
     <!-- Filtres -->
-    <section class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-10 space-y-6">
+    <section class="card mb-10 space-y-6">
       <div class="relative">
-        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Recherche globale</label>
+        <label class="field-label">Recherche globale</label>
         <div class="relative">
           <input
             v-model="store.filters.search"
@@ -117,7 +117,7 @@ const optionsFor = (key) => ({
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div v-for="s in SELECTS" :key="s.key">
-          <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">{{ s.label }}</label>
+          <label class="field-label">{{ s.label }}</label>
           <select
             v-model="store.filters[s.key]"
             :class="['w-full border rounded-xl py-2.5 px-3 text-sm focus:outline-none transition-all appearance-none cursor-pointer', FACET_COLORS[s.key].filter]"

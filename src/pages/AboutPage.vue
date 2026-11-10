@@ -31,7 +31,7 @@ const firstSpecialite = (s) => (Array.isArray(s) ? s[0] : s);
     </section>
 
     <section class="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-      <h1 class="text-3xl font-extrabold text-gray-900 mb-6 tracking-tight">Métiers pilotes</h1>
+      <h1 class="page-title mb-6">Métiers pilotes</h1>
       <p class="text-lg text-gray-700/80 leading-relaxed mb-8 max-w-3xl">
         Le conservatoire s'est constitué empiriquement à partir de métiers pilotes, choisis pour leur diversité et leur représentativité. Ces métiers sont représentés par des établissements partenaires, qui contribuent à la production de données de captation, la documentation et l'analyse des gestes.
       </p>
@@ -45,7 +45,7 @@ const firstSpecialite = (s) => (Array.isArray(s) ? s[0] : s);
         <div
           v-for="member in MEMBERS"
           :key="member.slug"
-          class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col hover:border-amber-200 transition-all group"
+          class="card flex flex-col hover:border-amber-200 transition-all group"
         >
           <div class="flex items-center gap-8 mb-8">
             <div class="w-32 h-20 bg-gray-50 rounded-xl flex items-center justify-center overflow-hidden p-2 group-hover:scale-105 transition-transform">

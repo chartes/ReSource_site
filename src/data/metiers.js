@@ -22,7 +22,7 @@ export const METIERS = [
   },
   {
     name: "Recherche par le design",
-    discipline: null,
+    discipline: "recherche par le design",
     description: "Approche exploratoire mobilisant les méthodes du design pour interroger et renouveler les savoir-faire, portée par l'ENSAD.",
   },
   {

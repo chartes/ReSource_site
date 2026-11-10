@@ -25,20 +25,20 @@ const navClass = (to, inactive) => [
 </script>
 
 <template>
-  <div v-if="store.loading" class="min-h-screen flex items-center justify-center bg-[#fdfcf6]">
+  <div v-if="store.loading" class="min-h-screen flex items-center justify-center bg-site">
     <div class="flex flex-col items-center gap-4">
       <div class="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
       <p class="text-amber-800 font-bold tracking-widest uppercase text-xs">Chargement du catalogue...</p>
     </div>
   </div>
 
-  <div v-else class="min-h-screen bg-[#fdfcf6] flex flex-col">
+  <div v-else class="min-h-screen bg-site flex flex-col">
     <!-- Mobile Navbar -->
     <nav class="md:hidden bg-white border-b border-gray-100 px-4 py-6 sticky top-0 z-50">
       <div class="flex justify-between items-center">
         <RouterLink to="/" class="flex items-center gap-3">
           <img src="/Logos/ReSource.png" alt="Logo" class="w-6 h-8" />
-          <span class="text-s font-black text-amber-900 leading-none">
+          <span class="text-sm font-black text-amber-900 leading-none">
             Conservatoire des gestes<br/>
             et des savoir-faire des métiers d'art
           </span>
@@ -116,7 +116,7 @@ const navClass = (to, inactive) => [
           <span class="text-xs">Projet France 2030</span>
         </div>
         <div class="flex flex-col items-center md:items-end gap-2">
-          <span class="text-md">Soutenu par</span>
+          <span class="text-base">Soutenu par</span>
         </div>
         <a
           href="https://www.economie.gouv.fr/france-2030"
@@ -124,38 +124,17 @@ const navClass = (to, inactive) => [
           rel="noopener noreferrer"
           class="mt-auto inline-block bg-white/90 hover:bg-white rounded-xl p-2 transition-colors"
         >
-          <img
-            src="/Logos/France 2030.png"
-            alt="France 2030 Logo"
-            class="w-16 h-auto"
-          />
+          <img src="/Logos/France 2030.png" alt="France 2030" class="w-16 h-auto" />
         </a>
-        <a 
-          href = "https://consignations.caissedesdepots.fr/"
-          alt="Caisse des Dépôts et Consignations Logo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="/Logos/CDC.png"
-            alt="Caisse des Dépôts et Consignations Logo"
-            class="w-16 h-auto"
-          />
-          <a
-            href = "https://fondation.michelin.com/"
-            alt="Fondation Michelin Logo"
-            target="_blank"
-            rel="noopener noreferrer"
-            class = "mt-2 inline-block p-0"
-           
-          >
-            <img
-              src="/Logos/FondationMichelin.png"
-              alt="Fondation Michelin Logo"
-              class="w-30 h-auto"
-            />
+        <!-- Caisse des Dépôts et Fondation Michelin : deux liens distincts, empilés. -->
+        <div class="flex flex-col items-center gap-2">
+          <a href="https://consignations.caissedesdepots.fr/" target="_blank" rel="noopener noreferrer">
+            <img src="/Logos/CDC.png" alt="Caisse des Dépôts et Consignations" class="w-16 h-auto" />
           </a>
-        </a>
+          <a href="https://fondation.michelin.com/" target="_blank" rel="noopener noreferrer">
+            <img src="/Logos/FondationMichelin.png" alt="Fondation Michelin" class="w-30 h-auto" />
+          </a>
+        </div>
         <p class="text-xs text-center md:text-right max-w-sm">
           Favoriser la transmission des compétences et la préservation du patrimoine immatériel des métiers d'art.
         </p>
