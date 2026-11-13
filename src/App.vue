@@ -6,10 +6,26 @@ import HeroBanner from '@/components/HeroBanner.vue';
 import PhotoMosaic from '@/components/PhotoMosaic.vue';
 
 const NAV = [
-  { to: '/', label: 'Rechercher', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
-  { to: '/metiers', label: 'Métiers', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
-  { to: '/about', label: 'À propos', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-  { to: '/suivi', label: 'Suivi de projet', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+  {
+    to: '/',
+    label: 'À propos',
+    icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+  },
+  {
+    to: '/rechercher',
+    label: 'Rechercher',
+    icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+  },
+  {
+    to: '/metiers',
+    label: 'Métiers',
+    icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'
+  },
+  {
+    to: '/suivi',
+    label: 'Suivi de projet',
+    icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2-2h-2a2 2 0 01-2-2z'
+  },
 ];
 
 const route = useRoute(); 
@@ -20,7 +36,9 @@ watch(() => route.path, () => { mobileMenuOpen.value = false; });
 
 const navClass = (to, inactive) => [
   'flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all',
-  (to === '/' ? route.path === '/' : route.path.startsWith(to)) ? 'bg-amber-100 text-amber-900 shadow-sm shadow-amber-200' : inactive,
+  route.path === to
+    ? 'bg-amber-100 text-amber-900 shadow-sm shadow-amber-200'
+    : inactive,
 ];
 </script>
 

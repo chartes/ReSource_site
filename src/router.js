@@ -9,9 +9,9 @@ import SuiviPage from '@/pages/SuiviPage.vue';
 export default createRouter({
   history: createWebHashHistory(),
   routes: [
-    { path: '/', component: CataloguePage },
+    { path: '/', component: AboutPage },
+    { path: '/rechercher', component: CataloguePage },
     { path: '/metiers', component: MetiersPage },
-    { path: '/about', component: AboutPage },
     { path: '/suivi', component: SuiviPage },
     // Anciennes URLs des formulaires de suivi (#/suivi/operation/...) et URLs inconnues.
     { path: '/suivi/:rest(.*)', redirect: '/suivi' },
