@@ -7,13 +7,13 @@ export const METIERS = [
   },
   {
     name: "Soufflage de verre à la canne",
-    discipline: null,
+    discipline: "soufflage de verre à la canne",
     description: "Technique de façonnage du verre en fusion à l'aide d'une canne de soufflage, étudiée au CERFAV.",
   },
   {
-    name: "Soufflage de verre au chalumeau",
-    discipline: null,
-    description: "Façonnage du verre à la flamme du chalumeau, exploré au sein du CERFAV.",
+    name: "Verrerie scientifique",
+    discipline: "verrerie scientifique",
+    description: "Réalisation au chalumeau d'appareils en verre sur mesure pour les laboratoires : le verre, souvent borosilicaté, est chauffé vers 1 200 °C puis façonné à la main.",
   },
   {
     name: "Sellerie nautique",
