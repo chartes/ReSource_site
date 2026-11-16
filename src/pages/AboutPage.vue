@@ -9,7 +9,7 @@ const hasDataForMember = (keys) => hasDataFor(r => r.rightsHolder.some(h => keys
 
 const viewMemberData = (rightsHolder) => {
   store.filters.rightsHolder = rightsHolder;
-  router.push('/');
+  router.push('/rechercher');
 };
 
 const firstSpecialite = (s) => (Array.isArray(s) ? s[0] : s);
@@ -23,7 +23,7 @@ const firstSpecialite = (s) => (Array.isArray(s) ? s[0] : s);
         Les métiers d'art, de la mode et du luxe occupent une place unique en France. Ils rassemblent des siècles d'histoire et une diversité unique de territoires et d'acteurs. Porté par le programme PIA France 2030, le Conservatoire des gestes et du savoir-faire des métiers d'art a pour ambition de réunir des acteurs interdisciplinaire afin de fournir des ressources humaines, techniques et pédagogiques pour la transmission de ces savoir-faire d'exception.
       </p>
       <RouterLink
-        to="/"
+        to="/rechercher"
         class="inline-block bg-amber-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-amber-800 transition-all shadow-lg hover:shadow-amber-200"
       >
         Rechercher des ressources

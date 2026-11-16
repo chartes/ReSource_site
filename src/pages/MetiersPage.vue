@@ -9,7 +9,7 @@ const hasDataForDiscipline = (discipline) => !!discipline && hasDataFor(r => r.d
 
 const viewDiscipline = (discipline) => {
   store.filters.discipline = discipline;
-  router.push('/');
+  router.push('/rechercher');
 };
 </script>
 

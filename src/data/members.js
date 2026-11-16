@@ -53,6 +53,17 @@ export const MEMBERS = [
   },
 
   {
+    name: "Christofle",
+    slug: slugifyInstitution("Christofle"),
+    logo: "/Logos/Christofle.png",
+    website : "https://www.christofle.com/",
+    description : "Maison d’orfèvrerie française fondée en 1830, reconnue pour ses arts de la table en argent massif et en métal argenté. Sa manufacture de Yainville, en Normandie, perpétue les savoir-faire de l’orfèvrerie, du façonnage au polissage des pièces.",
+    address: "9 rue Royale, 75008 Paris, France",
+    specialite: "Orfèvrerie",
+    rightsHolderKeys: ["Christofle"]
+  },
+
+  {
     name: "Ecole Nationale Supérieure des Arts Décoratifs (ENSAD)",
     slug: slugifyInstitution("Ecole Nationale Supérieure des Arts Décoratifs"),
     logo: "/Logos/ENSAD.jpg",
@@ -108,6 +119,17 @@ export const MEMBERS = [
   },
 
   {
+    name: "LVMH Métiers d'Excellence",
+    slug: slugifyInstitution("LVMH Métiers d'Excellence"),
+    logo: "/Logos/LVMH.png",
+    website : "https://www.lvmh.com/",
+    description : "Programme de formation professionnelle créé en 2014 par le groupe LVMH, qui prépare aux métiers de l’artisanat, de la création et de l’expérience client en partenariat avec des écoles et les Maisons du groupe, notamment en maroquinerie.",
+    address: "22 avenue Montaigne, 75008 Paris, France",
+    specialite: "Maroquinerie",
+    rightsHolderKeys: ["LVMH Métiers d'Excellence"]
+  },
+
+  {
     name : "Lycée du Dauphiné",
     slug : slugifyInstitution("Lycée Professionnel Ouvrier du Dauphiné"),
     logo : "/Logos/LPO Dauphine.png",
@@ -149,6 +171,17 @@ export const MEMBERS = [
     address: "200 Avenue de la République, 92000 Nanterre, France",
     specialite: "Psychologie de l'apprentissage",
     rightsHolderKeys: ["Université Paris-Nanterre"]
+  },
+
+  {
+    name: "Van Cleef & Arpels",
+    slug: slugifyInstitution("Van Cleef & Arpels"),
+    logo: "/Logos/Van Cleef & Arpels.png",
+    website : "https://www.vancleefarpels.com/",
+    description : "Maison de haute joaillerie française fondée en 1906 place Vendôme, réputée pour ses créations inspirées de la nature et pour le Serti Mystérieux. Ses ateliers perpétuent les savoir-faire de la joaillerie, du dessin à la mise en œuvre des pierres.",
+    address: "22 place Vendôme, 75001 Paris, France",
+    specialite: "Joaillerie",
+    rightsHolderKeys: ["Van Cleef & Arpels"]
   }
 ];
 
