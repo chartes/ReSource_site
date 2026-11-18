@@ -1,7 +1,7 @@
 <script setup>
 // Rapport Power BI (lien « Publier sur le web » : public, visible sans connexion par quiconque a le lien).
 const POWERBI_URL =
-  'https://app.powerbi.com/view?r=eyJrIjoiNThjNTc1NjgtNmIwZC00YzFiLWE5YWUtN2NlM2YwNmIwZWJjIiwidCI6IjRmOGZkNjk1LWIzYjUtNDA4Mi04MDA1LTYxMGU5NDUzZTZkMCIsImMiOjh9';
+  'https://app.powerbi.com/view?r=eyJrIjoiMzQzZmFhZTQtNjUxNi00MDEzLTkzNTMtYmM3MGE5NTlkN2IxIiwidCI6IjRmOGZkNjk1LWIzYjUtNDA4Mi04MDA1LTYxMGU5NDUzZTZkMCIsImMiOjh9'
 </script>
 
 <template>
